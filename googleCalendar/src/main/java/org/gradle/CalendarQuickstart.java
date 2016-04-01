@@ -1,4 +1,5 @@
 package org.gradle;
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -96,14 +97,52 @@ public class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
-
+    
     public static void main(String[] args) throws IOException {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
         //   com.google.api.services.calendar.model.Calendar class.
         com.google.api.services.calendar.Calendar service =
             getCalendarService();
+        /*Event event = new Event()
+        .setSummary("Google I/O 2015")
+        .setLocation("800 Howard St., San Francisco, CA 94103")
+        .setDescription("A chance to hear more about Google's developer products.");
 
+    DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+    EventDateTime start = new EventDateTime()
+        .setDateTime(startDateTime)
+        .setTimeZone("America/Los_Angeles");
+    event.setStart(start);
+
+    DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+    EventDateTime end = new EventDateTime()
+        .setDateTime(endDateTime)
+        .setTimeZone("America/Los_Angeles");
+    event.setEnd(end);
+
+    String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+    event.setRecurrence(Arrays.asList(recurrence));
+
+    EventAttendee[] attendees = new EventAttendee[] {
+        new EventAttendee().setEmail("lpage@example.com"),
+        new EventAttendee().setEmail("sbrin@example.com"),
+    };
+    event.setAttendees(Arrays.asList(attendees));
+
+    EventReminder[] reminderOverrides = new EventReminder[] {
+        new EventReminder().setMethod("email").setMinutes(24 * 60),
+        new EventReminder().setMethod("popup").setMinutes(10),
+    };
+    Event.Reminders reminders = new Event.Reminders()
+        .setUseDefault(false)
+        .setOverrides(Arrays.asList(reminderOverrides));
+    event.setReminders(reminders);
+
+    String calendarId = "primary";
+    event = service.events().insert(calendarId, event).execute();
+    System.out.printf("Event created: %s\n", event.getHtmlLink());
+*/
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
