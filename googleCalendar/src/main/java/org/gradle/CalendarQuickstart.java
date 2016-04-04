@@ -11,7 +11,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.client.util.DateTime;
-
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
 
@@ -19,9 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class CalendarQuickstart {
+public class CalendarQuickstart implements ICalendarQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
         "Google Calendar API Java Quickstart";
@@ -39,6 +41,8 @@ public class CalendarQuickstart {
 
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
+    
+    
 
     /** Global instance of the scopes required by this quickstart.
      *
@@ -46,7 +50,7 @@ public class CalendarQuickstart {
      * at ~/.credentials/calendar-java-quickstart.json
      */
     private static final List<String> SCOPES =
-        Arrays.asList(CalendarScopes.CALENDAR_READONLY);
+        Arrays.asList(CalendarScopes.CALENDAR);
 
     static {
         try {
@@ -97,54 +101,30 @@ public class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
+   
+
     
     public static void main(String[] args) throws IOException {
         // Build a new authorized API client service.
         // Note: Do not confuse this class with the
         //   com.google.api.services.calendar.model.Calendar class.
-        com.google.api.services.calendar.Calendar service =
-            getCalendarService();
-        /*Event event = new Event()
-        .setSummary("Google I/O 2015")
-        .setLocation("800 Howard St., San Francisco, CA 94103")
-        .setDescription("A chance to hear more about Google's developer products.");
-
-    DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
-    EventDateTime start = new EventDateTime()
-        .setDateTime(startDateTime)
-        .setTimeZone("America/Los_Angeles");
-    event.setStart(start);
-
-    DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
-    EventDateTime end = new EventDateTime()
-        .setDateTime(endDateTime)
-        .setTimeZone("America/Los_Angeles");
-    event.setEnd(end);
-
-    String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
-    event.setRecurrence(Arrays.asList(recurrence));
-
-    EventAttendee[] attendees = new EventAttendee[] {
-        new EventAttendee().setEmail("lpage@example.com"),
-        new EventAttendee().setEmail("sbrin@example.com"),
-    };
-    event.setAttendees(Arrays.asList(attendees));
-
-    EventReminder[] reminderOverrides = new EventReminder[] {
-        new EventReminder().setMethod("email").setMinutes(24 * 60),
-        new EventReminder().setMethod("popup").setMinutes(10),
-    };
-    Event.Reminders reminders = new Event.Reminders()
-        .setUseDefault(false)
-        .setOverrides(Arrays.asList(reminderOverrides));
-    event.setReminders(reminders);
-
-    String calendarId = "primary";
-    event = service.events().insert(calendarId, event).execute();
-    System.out.printf("Event created: %s\n", event.getHtmlLink());
-*/
+    	/*com.google.api.services.calendar.Calendar service =
+                getCalendarService();*/
+        Calendar ser=CalendarQuickstart.service();
+        CalendarQuickstart calen=new CalendarQuickstart();
+        
+          calen.create(ser);
+           
+       // calen.delete(ser);
+       // calen.update(ser);
+       // calen.get(ser);
+          calen.list(ser);
+        
+       
+    
+   
         // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
+       /* DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
             .setMaxResults(10)
             .setTimeMin(now)
@@ -163,7 +143,118 @@ public class CalendarQuickstart {
                 }
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
-        }
+        }*/
     }
+    
+    public static com.google.api.services.calendar.Calendar service() throws IOException{
+    	com.google.api.services.calendar.Calendar service =
+                getCalendarService();
+    	return service;
+    }
+
+	@Override
+	public void create(com.google.api.services.calendar.Calendar service) throws IOException {
+		//com.google.api.services.calendar.Calendar service = getCalendarService();
+		
+		 Event event = new Event()
+	        .setSummary("Google I/O 2015")
+	        .setLocation("800 Howard St., San Francisco, CA 94103")
+	        .setDescription("A chance to hear more about Google's developer products.");
+
+	    DateTime startDateTime = new DateTime("2016-04-04T09:00:00-07:00");
+	    EventDateTime start = new EventDateTime()
+	        .setDateTime(startDateTime)
+	        .setTimeZone("America/Los_Angeles");
+	    event.setStart(start);
+
+	    DateTime endDateTime = new DateTime("2016-04-04T17:00:00-07:00");
+	    EventDateTime end = new EventDateTime()
+	        .setDateTime(endDateTime)
+	        .setTimeZone("America/Los_Angeles");
+	    event.setEnd(end);
+
+	    String[] recurrence = new String[] {"RRULE:FREQ=DAILY;COUNT=2"};
+	    event.setRecurrence(Arrays.asList(recurrence));
+
+	    EventAttendee[] attendees = new EventAttendee[] {
+	        new EventAttendee().setEmail("ayanyogesh@gmail.com"),
+	        new EventAttendee().setEmail("ramkrish3070@gmail.com"),
+	    };
+	    event.setAttendees(Arrays.asList(attendees));
+
+	    EventReminder[] reminderOverrides = new EventReminder[] {
+	        new EventReminder().setMethod("email").setMinutes(24 * 60),
+	        new EventReminder().setMethod("popup").setMinutes(10),
+	    };
+	    Event.Reminders reminders = new Event.Reminders()
+	        .setUseDefault(false)
+	        .setOverrides(Arrays.asList(reminderOverrides));
+	    event.setReminders(reminders);
+
+	    String calendarId = "primary";
+	    event = service.events().insert(calendarId, event).execute();
+	    System.out.printf("Event created: %s\n", event.getHtmlLink());
+	    System.out.println(service.events().list("primary").execute()); 
+	    System.out.println(event.getSummary());
+	   
+		
+	}
+
+	@Override
+	public void delete(com.google.api.services.calendar.Calendar service) throws IOException {
+		// System.out.println(service.events().list("primary").execute()); 
+		
+	
+		
+		 service.events().delete("primary", "72nf1bogunjvc4hvlb3uugc5ts").execute();
+		 System.out.println("successfully deleted");
+		 System.out.println(service.events().list("primary").execute());
+		 
+
+	}
+
+	@Override
+	public void update(com.google.api.services.calendar.Calendar service) throws IOException {
+	 
+		// Retrieve the event from the API
+		Event event = service.events().get("primary", "km13sf8dql0hiok91cr8p87mhg").execute();
+
+		// Make a change
+		event.setSummary("Hello 10d friends");
+
+		// Update the event
+		Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
+
+		System.out.println(updatedEvent.getUpdated());
+		
+	}
+
+	@Override
+	public void get(com.google.api.services.calendar.Calendar service) throws IOException {
+		// Retrieve an event
+		
+		Event event = service.events().get("primary", "eventId").execute();
+
+		System.out.println(event.getSummary());
+		
+	}
+
+	@Override
+	public void list(com.google.api.services.calendar.Calendar service) throws IOException {
+		// Iterate over the events in the specified calendar
+				String pageToken = null;
+				do {
+				  Events events = service.events().list("primary").setPageToken(pageToken).execute();
+				  List<Event> items = events.getItems();
+				  for (Event event : items) {
+				    System.out.println(event.getSummary()+"--"+event.getId());
+				  }
+				  pageToken = events.getNextPageToken();
+				} while (pageToken != null);
+				
+		
+	}
+	
+	
 
 }
